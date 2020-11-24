@@ -1,16 +1,13 @@
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);	// Tela LCD
 int ir_pin = 13;	    // Sensor Infravermelho entrada
-int ir_pin1 = 8;		// Sensor Infravermelho saída
 int counter = 0;	    // Contador de passageiros
 int hitObject = false;	// Booleano aux do contador entrada
-int hitObject1 = false;	// Booleano aux do contador saída
 int switchPin = 18;     // Botão deslizante
 
 void setup(){
   Serial.begin(9600);
   pinMode(ir_pin,INPUT);	// Sensor entrada
-  pinMode(ir_pin1,INPUT);	// Sensor saída
   
   lcd.begin(16, 2);
   lcd.print("Num Passageiros");
@@ -26,7 +23,6 @@ void setup(){
 void loop()
 {
   int val = digitalRead(ir_pin);	// Variavel sensor entrada
-  int val1 = digitalRead(ir_pin1);	// Variavel sensor saída
 
   if (( val == 0 ) && ( hitObject == false )){	// Condição entrada
     counter++;
@@ -35,14 +31,6 @@ void loop()
     Serial.println(counter);
   }else if (( val == 1 ) && (hitObject == true )){
     hitObject = false;}
-  
-  //if (( val1 == 0 ) && ( hitObject1 == false )){	// Condição saída
-    //counter--;
-    //hitObject1 = true;
-    //Serial.print("Counter = ");
-    //Serial.println(counter);
-  //}else if (( val1 == 1 ) && (hitObject1 == true )){
-   // hitObject1 = false;}
   
   lcd.setCursor(0, 1);
   lcd.print(">> ");
