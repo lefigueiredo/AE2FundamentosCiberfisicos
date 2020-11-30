@@ -32,14 +32,16 @@ void check_pessoa(int lado) {
     pino_leitura = ir_right_pin;
   }
   while (!(digitalRead(ir_left_pin) == 0 && digitalRead(ir_right_pin) == 0)) {
+    //Enquanto os dois sensores estao ativados
       delay(10);
-      if (alterou == false) {
+      if (alterou == false) { 
+      // Booleano que nao permite repetidas somas ou subntracoes enquanto esta no loop
         if (digitalRead(pino_leitura) == 1) {
-          if (lado == 0) {
-            counter++;
+          if (lado == 0) {    // Condiçao de entrada
+            counter++;		  // Soma-se um passageiro
             alterou = true;
-          } else {
-            counter--;
+          } else { 			  // Condiçao de saida
+            counter--;		  // Subtrai um passageiro
             alterou = true;
           }
         }
@@ -59,22 +61,22 @@ void loop() {
   lcd.print(counter);
   lcd.print(" / 10 <<");
 
-  if (counter <= 7) {
+  if (counter <= 7) {			// Led seguro
     analogWrite(14, 0);
     analogWrite(16, 0);
     analogWrite(17, 255);
 
-  } else if (counter <= 9) {
+  } else if (counter <= 9) {	// Led Cuidado
     analogWrite(14, 255);
     analogWrite(16, 0);
     analogWrite(17, 255);
 
-  } else if (counter > 9) {
+  } else if (counter > 9) {		// Led Lotacao
     analogWrite(14, 255);
     analogWrite(16, 0);
     analogWrite(17, 0);
 
-    if (digitalRead(switchPin)) {
+    if (digitalRead(switchPin)) {	// Aviso sonoro lotacao
       digitalWrite(15, HIGH);
       tone(15, 1783720093981, 500);
       delay(250);
